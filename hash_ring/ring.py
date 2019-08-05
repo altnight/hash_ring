@@ -163,5 +163,7 @@ class HashRing(object):
 
     def _hash_digest(self, key):
         m = md5_constructor()
-        m.update(bytes(key, 'utf-8'))
-        return list(map(ord, str(m.digest())))
+        if isinstance(key, str):
+            key = key.encode()
+        m.update(key)
+        return [b for b in m.digest()]
